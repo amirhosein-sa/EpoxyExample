@@ -14,24 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         epoxyRecyclerview.setItemSpacingDp(4)
-        epoxyRecyclerview.buildModelsWith {
-            it.apply {
-                User.getSampleUsers()
-                    .forEachIndexed { index, user ->
-                        userLayoutView {
-                            id(index)
-                            name(user.name)
-                            age("${user.age}")
-                            email(user.email)
-                            itemClickListener {_ ->
-                                Toast.makeText(this@MainActivity,
-                                    "You clicked on item ${user.name}",
-                                    Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                            if (index.rem(2)==0) background(Color.GREEN)
+        epoxyRecyclerView.withModels {
+            this.apply {
+                User.getSampleUsers().forEachIndexed { index, user ->
+                    userLayoutView {
+                        id(index)
+                        name(user.name)
+                        email(user.email)
+                        itemClickListener { _ ->
+                            Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
                         }
+                        if (index%2==0) background(Color.CYAN)
+                        age("${user.age}")
                     }
+
+                }
             }
         }
     }
